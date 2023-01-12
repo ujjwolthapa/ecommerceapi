@@ -125,12 +125,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
 
 
 # Password validation
@@ -179,3 +179,26 @@ MEDIA_ROOT='static/images'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CORS_ALLOW_ALL_ORIGINS = True
+#  mysql database connection
+# DATABASES = {  
+#     'default': {  
+#         'ENGINE': 'django.db.backends.mysql',  
+#         'NAME': 'ecommerece',  
+#         'USER': 'root',  
+#         'PASSWORD': 'admin',  
+#         'HOST': '127.0.0.1',  
+#         'PORT': '3307',  
+#         }  
+#     }  
+# }  
+# postgres
+DATABASES = {
+   'default': {
+       'ENGINE': 'django.db.backends.postgresql',
+       'NAME': 'ecommerce',
+       'USER': 'postgres',
+       'PASSWORD': 'admin',
+       'HOST': 'db',
+       'PORT': '5432',
+   }
+}

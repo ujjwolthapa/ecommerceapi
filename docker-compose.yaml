@@ -1,0 +1,26 @@
+version: '3.9'
+services:
+  db:
+    image: postgres
+    expose:
+      - "5432"
+    ports:
+      - "5433:5432"
+    environment:
+      - POSTGRES_PASSWORD= 'admin'
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+    volumes:
+      - /home/bromx/projects/databases/postgres/data:/var/lib/postgresql/data    
+  web:
+    build: .
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+    depends_on:
+      - db
+
+
+
+
