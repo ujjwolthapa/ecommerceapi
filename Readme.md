@@ -1,0 +1,89 @@
+Integrated the ecommereceapi with docker and postgreSQL
+
+1.First build the docker image file using docker-compose
+    ``` bash 
+        docker-compose up -d --build
+    ```
+2.Running commands within Docker is a little different than in a traditional Django project. For example, to migrate the new PostgreSQL database running in Docker.
+    ``` bash
+        docker-compose exec web python manage.py migrate
+        docker-compose exec web python manage.py createsuperuser
+    ```
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+API END POINTS OF /USERS ROUTES
+POST /users/login:
+This endpoint is used for user login. It accepts a JSON object with the following properties in the request body:
+email: the email of the user
+password: the password of the user
+It returns a JSON Web Token (JWT) in the response body if the login is successful, and a 401 status code if the login fails.
+
+POST /users/register:
+This endpoint is used for user registration. It accepts a JSON object with the following properties in the request body:
+email: the email of the user
+password: the password of the user
+name: the name of the user
+It returns a 201 status code if the registration is successful, and a 400 status code if the registration fails.
+
+GET /users/profile:
+This endpoint is used for retrieving a user's profile. It requires a valid JWT to be present in the request headers.
+It returns a JSON object with the following properties in the response body:
+
+name: the name of the user
+email: the email of the user
+created_at: the date and time the user's account was created
+PUT /users/profile/update:
+This endpoint is used for updating a user's profile. It requires a valid JWT to be present in the request headers.
+It accepts a JSON object with the following properties in the request body:
+
+name: the updated name of the user (optional)
+password: the updated password of the user (optional)
+It returns a 200 status code if the update is successful, and a 400 status code if the update fails.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+API END POINTS OF /PRODUCTS ROUTES
+This endpoint is used for retrieving a list of products. It does not require any request body or headers.
+It returns a JSON array of products in the response body, where each product has the following properties:
+
+id: the unique identifier of the product
+name: the name of the product
+description: a brief description of the product
+price: the price of the product
+image:the image of product
+category: the category of product
+brand: the brand of product
+description: the description of the product
+numReviews: the number of reviews.
+GET /products/:id:
+This endpoint is used for retrieving a specific product by its id. It requires the id of the product to be passed in the URL.
+It returns a JSON object of the product in the response body, with the same properties as listed in the GET /products endpoint. If the product is not found, it returns a 404 status code.
+--------------------------------------------------------------------------------------------------------------------------------------------------------------
+API END POINTS OF /ORDER ROUTES
+POST /orders/add:
+This endpoint is used for adding a new order. It requires a valid JWT to be present in the request headers.
+It accepts a JSON object with the following properties in the request body:
+
+productId: the id of the product being ordered
+quantity: the quantity of the product being ordered
+It returns a JSON object with the following properties in the response body:
+
+orderId: the unique identifier of the order
+productId: the id of the product that was ordered
+quantity: the quantity of the product that was ordered
+totalPrice: the total price of the order
+status: the status of the order (e.g. "pending", "paid")
+GET /orders/myorders:
+This endpoint is used for retrieving a list of orders placed by the authenticated user. It requires a valid JWT to be present in the request headers.
+It returns a JSON array of orders in the response body, with the same properties as listed in the POST /orders/add endpoint.
+
+GET /orders/:id:
+This endpoint is used for retrieving a specific order by its id. It requires the id of the order to be passed in the URL and a valid JWT to be present in the request headers.
+It returns a JSON object of the order in the response body, with the same properties as listed in the POST /orders/add endpoint. If the order is not found, it returns a 404 status code.
+
+PUT /orders/:id/pay:
+This endpoint is used for paying an order. It requires the id of the order to be passed in the URL and a valid JWT to be present in the request headers.
+It does not require any request body.
+
+It returns a JSON object with the following properties in the response body:
+
+orderId: the unique identifier of the order
+status: the updated status of the order (e.g. "paid")
+If the order is not found or already paid, it returns a 404 status code.
