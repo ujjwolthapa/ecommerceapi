@@ -1,0 +1,26 @@
+name: Staging CD
+
+on:
+  push:
+    branches: ["staging"]
+
+env:
+  DOCKER_USER: ${{secrets.DOCKER_USERNAME}}
+  DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+  
+jobs:
+  build:
+    runs-on: self-hosted
+    steps:
+    - uses: actions/checkout@v3
+    - uses: actions/setup-python@v4
+      with:
+          python-version: '3.8'
+    # - run: sudo docker build -t $DOCKER_USER/api:latest .
+    # - run: sudo docker login -u $DOCKER_USER -p $DOCKER_PASSWORD
+    # - run: sudo docker push $DOCKER_USER/weatherapp:latest
+    - run: sudo docker compose up
+    # - run: pip install django
+    # - shell: bash
+    #   run: pwd 
+    # - run: python manage.py runserver 
