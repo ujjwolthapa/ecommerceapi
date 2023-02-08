@@ -10,7 +10,7 @@ services:
       - POSTGRES_PASSWORD= 'admin'
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     volumes:
-      - /home/bromx/projects/databases/postgres/data:/var/lib/postgresql/data    
+      - /home/ubuntu/database:/var/lib/postgresql/data:rw   
   web:
     build: .
     command: python manage.py runserver 0.0.0.0:8000
