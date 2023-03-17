@@ -21,6 +21,14 @@ services:
     depends_on:
       - db
 
+  frontend:
+    image: bromx/frontend
+    command: npx serve build
+    ports:
+      - "3000:3000"
+    depends_on:
+      - web
+
 
 
 
