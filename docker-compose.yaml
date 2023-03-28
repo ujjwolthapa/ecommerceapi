@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3'
 services:
   db:
     image: postgres
@@ -10,27 +10,36 @@ services:
       - POSTGRES_PASSWORD= 'admin'
       - "POSTGRES_HOST_AUTH_METHOD=trust"
     volumes:
-      - /home/ubuntu/database:/var/lib/postgresql/data:rw   
+      - /home/ubuntu/database:/var/lib/postgresql/data:rw 
+    networks:
+      - mynetwork
   web:
     build: .
-    image: bromx/frontend
+    image: backend
+    container_name: backend
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
     volumes:
       - .:/app
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
+    networks:
+      - mynetwork
 
   frontend:
-    image: bromx/frontend
+    image: frontend
+    container_name: frontend
     command: npx serve build
     ports:
       - "3030:3000"
-    depends_on:
-      - web
-      - db
-
+    networks:
+      - mynetwork
+    # depends_on:
+    #   - web
+      
+networks:
+  mynetwork:
 
 
 

@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Depolyment
+metadata:
+  name: backend-depolyment
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+    template:
+      metadata:
+        labels:
+          app: backend
+      spec:
+        # volumes
+        containers:
+        - name: backend
+          image: bromx/backend
+          ports:
+          - containerPort: 8000
+          # volume mount
+          envFrom:
+          - ConfigMapRef:
+              name: db-config
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: backend-service
+spec:
+  selector:
+    app: backend
+    type: NodePort
+    ports:
+    - protocol: TCP
+      ports: 8000
+      targetPort: 8000
+      NodePort: 30002
