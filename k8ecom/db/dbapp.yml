@@ -20,13 +20,23 @@ spec:
           ports:
             - containerPort: 5432
           env:
+            - name: POSTGRES_HOST_AUTH_METHOD
+              value: "trust"
+            - name: POSTGRES_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DATABASE_USERNAME
             - name: POSTGRES_PASSWORD
               valueFrom:
                 secretKeyRef:
                   name: db-secret
                   key: db-password
-            - name: POSTGRES_HOST_AUTH_METHOD
-              value: "trust"
+            - name: POSTGRES_DB
+              valueFrom:
+                configMapKeyRef:
+                  name: db-config
+                  key: DATABASE_NAME
 ---
 apiVersion: v1
 kind: Service
@@ -35,7 +45,9 @@ metadata:
 spec:
   selector:
     app: db
+  type: NodePort
   ports:
     - protocol: TCP
       port: 5432
       targetPort: 5432
+      nodePort: 30002

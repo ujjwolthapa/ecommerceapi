@@ -193,23 +193,28 @@ CORS_ALLOW_ALL_ORIGINS = True
 # }  
 # postgres
 import os
+import dj_database_url
+DATABASES = {
+    'default': dj_database_url.config(default='postgres://admin:admin@db-service:5432/ecom')
+}
+
 # DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.postgresql',
 #        'NAME': 'ecommerce',
 #        'USER': 'postgres',
 #        'PASSWORD': 'admin',
-#        'HOST': 'db',
+#        'HOST': 'db-service',
 #        'PORT': '5432',
 #    }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
-        'PORT': os.environ.get('DATABASE_PORT', '5432'),
-        'NAME': os.environ.get('DATABASE_NAME', 'postgres'),
-        'USER': os.environ.get('DATABASE_USER'),
-        'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'HOST': os.environ.get('DATABASE_HOST', 'localhost'),
+#         'PORT': os.environ.get('DATABASE_PORT', '5432'),
+#         'NAME': os.environ.get('DATABASE_NAME', 'postgres'),
+#         'USER': os.environ.get('DATABASE_USER'),
+#         'PASSWORD': os.environ.get('DATABASE_PASSWORD'),
+#     }
+# }
